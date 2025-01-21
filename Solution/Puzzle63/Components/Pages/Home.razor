@@ -1,0 +1,34 @@
+﻿@page "/"
+@implements IDisposable // This component implements IDisposable to unsubscribe from the event
+
+<p>This solution uses a standard .NET event as a pub/sub mechanism.</p>
+<p>Consumers of the event need to implement IDisposable to unsubscribe from the event.</p>
+
+<h3>@Message</h3>
+
+@code {
+
+    [CascadingParameter]
+    public MyCascadingComponent CascadingComponent { get; set; }
+
+    private string Message { get; set; } = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        //CascadingComponent.MyEventCallback = EventCallback.Factory.Create<string>(this, HandleMyEventCallback);
+
+        CascadingComponent.OnChange += HandleMyEventCallback;
+    }
+
+    private void HandleMyEventCallback(string value)
+    {
+        Message = value;
+        InvokeAsync(StateHasChanged);
+    }
+
+    // You must unsubscribe from the event to avoid memory leaks
+    public void Dispose()
+    {
+        CascadingComponent.OnChange -= HandleMyEventCallback;
+    }
+}
