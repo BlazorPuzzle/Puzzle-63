@@ -1,0 +1,27 @@
+﻿@page "/"
+
+<p>This app illustrates how there can only be one EventCallback handler of a Cascdading component.</p>
+<p>The MyCascadingComponent cascading parameter is accessed in both Home.razor and Toolbar.razor</p>
+<p>An EventCallback is created in both places, but there is only one, so the last one to be defined wins. That turns out to be in Home.razor</p>
+<p>To test it, comment out the line in OnInitialized where MyEventCallback is created.</p>
+<p>How can we support multiple callbacks?</p>
+
+<h3>@Message</h3>
+
+@code {
+
+    [CascadingParameter]
+    public MyCascadingComponent CascadingComponent { get; set; }
+
+    private string Message { get; set; } = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        CascadingComponent.MyEventCallback = EventCallback.Factory.Create<string>(this, HandleMyEventCallback);
+    }
+
+    private void HandleMyEventCallback(string value)
+    {
+        Message = value;
+    }
+}

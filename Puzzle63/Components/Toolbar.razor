@@ -1,0 +1,20 @@
+﻿<h3>@Message</h3>
+
+@code {
+
+    [CascadingParameter]
+    public MyCascadingComponent CascadingComponent { get; set; }
+
+    private string Message { get; set; } = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        CascadingComponent.MyEventCallback = EventCallback.Factory.Create<string>(this, HandleMyEventCallback);
+    }
+
+    private void HandleMyEventCallback(string value)
+    {
+        Message = value;
+    }
+    
+}
