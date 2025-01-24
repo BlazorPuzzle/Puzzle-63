@@ -2,7 +2,7 @@
 
 ## There Can Only Be One
 
-YouTube Video: https://youtu.be/
+YouTube Video: https://youtu.be/b-cqci6w3-g
 
 Blazor Puzzle Home Page: https://blazorpuzzle.com
 
